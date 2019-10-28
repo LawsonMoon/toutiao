@@ -2,11 +2,11 @@
   <div class="container">
     <el-card>
       <img src="../../assets/logo_index.png" alt />
-      <el-form ref="form" :model="LoginForm">
-        <el-form-item>
-          <el-input v-model="LoginForm.name" placeholder="请输入手机号"></el-input>
+      <el-form ref="loginForm" status-icon :model="LoginForm" :rules="LoginRules">
+        <el-form-item prop="mobile">
+          <el-input v-model="LoginForm.mobile" placeholder="请输入手机号"></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item prop="code">
           <el-input
             v-model="LoginForm.code"
             placeholder="请输入验证码"
@@ -18,7 +18,7 @@
           <el-checkbox :value="true">我已阅读并同意用户协议和隐私条款</el-checkbox>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit" style="width:100%;">登录</el-button>
+          <el-button type="primary" style="width:100%;" @click="loginCheck">登录</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -26,13 +26,48 @@
 </template>
 
 <script>
+const checkMobile = (rule, value, callback) => {
+  if (/^1[3-9]\d{9}$/.test(value)) {
+    callback()
+  } else {
+    callback(new Error('手机号格式不对'))
+  }
+}
+
 export default {
   data () {
     return {
       LoginForm: {
         mobile: '',
         code: ''
+      },
+      LoginRules: {
+        mobile: [
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { validator: checkMobile, trigger: 'blur' }
+        ],
+        code: [
+          { required: true, message: '请输入验证码', trigger: 'blur' },
+          { len: 6, message: '验证码是6位', trigger: 'blur' }
+        ]
       }
+    }
+  },
+  methods: {
+    loginCheck () {
+      this.$refs['loginForm'].validate(valid => {
+        if (valid) {
+          // 如果验证成功
+          this.$http
+            .post('authorizations', this.LoginForm)
+            .then(res => {
+              this.$router.push('/')
+            })
+            .catch(() => {
+              this.$messag.error('手机或验证码错误')
+            })
+        }
+      })
     }
   }
 }
