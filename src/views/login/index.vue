@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import loacl from '@/utils/local.js'
+
 const checkMobile = (rule, value, callback) => {
   if (/^1[3-9]\d{9}$/.test(value)) {
     callback()
@@ -55,17 +57,26 @@ export default {
   },
   methods: {
     loginCheck () {
-      this.$refs['loginForm'].validate(valid => {
+      this.$refs['loginForm'].validate(async valid => {
         if (valid) {
           // 如果验证成功
-          this.$http
-            .post('authorizations', this.LoginForm)
-            .then(res => {
-              this.$router.push('/')
-            })
-            .catch(() => {
-              this.$messag.error('手机或验证码错误')
-            })
+          // this.$http
+          //   .post('authorizations', this.LoginForm)
+          //   .then(res => {
+          //     // 成功之后保存token res.data.data 这个就是token token在res的数据的data里面
+          //     loacl.setUser(res.data.data)
+          //     this.$router.push('/')
+          //   })
+          //   .catch(() => {
+          //     this.$messag.error('手机或验证码错误')
+          //   })
+          try {
+            const { data: { data } } = await this.$http.post('authorizations', this.LoginForm)
+            loacl.setUser(data)
+            this.$router.push('/')
+          } catch (e) {
+            this.$message.error('手机号或验证码错误')
+          }
         }
       })
     }

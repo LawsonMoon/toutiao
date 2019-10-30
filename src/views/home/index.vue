@@ -47,18 +47,16 @@
         <span class="el-icon-s-fold ico" @click="toggleMenu"></span>
         <!-- 文字 -->
         <span class="text">江苏传智播客科技教育有限公司</span>
-        <el-dropdown>
+        <el-dropdown @command="handleClick">
           <span class="el-dropdown-link">
-            <img src="../../assets/avatar.jpg" alt />
-            <span class="uname">小红帽</span>
+            <img :src="phtot" alt />
+            <span class="uname">{{uname}}</span>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>
-              <i class="el-icon-setting"></i>个人设置
+            <el-dropdown-item icon="el-icon-setting" command="setting">个人设置
             </el-dropdown-item>
-            <el-dropdown-item>
-              <i class="el-icon-unlock"></i>退出登陆
+            <el-dropdown-item icon="el-icon-unlock" command='logout'>退出登陆
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -71,10 +69,13 @@
 </template>
 
 <script>
+import local from '@/utils/local'
 export default {
   data () {
     return {
-      isToggle: true
+      isToggle: true,
+      uname: '',
+      phtot: ''
     }
   },
   methods: {
@@ -85,7 +86,26 @@ export default {
       //     this.isToggle = true
       //   }
       this.isToggle = !this.isToggle
+    },
+    // 绑定的click事件无效
+    // 给的是element-ui提供的组件绑定的click事件，如果组件不支持click事件，无法触发。
+    // 组件不支持，给组件解析后的DOM绑定事件
+    // vue提供了事件修饰符功能，prevent once stop --- native 把事件绑定在原生DOM上
+    setting () {
+      this.$router.push('/setting')
+    },
+    logout () {
+      local.delUser()
+      this.$router.push('/login')
+    },
+    handleClick (command) {
+      this[command]()
     }
+  },
+  created () {
+    const user = local.getUser() || {}
+    this.uname = user.name
+    this.phtot = user.photo
   }
 }
 </script>
