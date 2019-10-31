@@ -7,9 +7,13 @@ import axios from '@/api'
 // 2. @ 别名  指定的是 /src 路径  一个绝对路径。 基于webpack
 // import router from './router/index.js'
 import router from '@/router'
+// import MyBread from '@/components/my-bread'
+import plugin from '@/components'
 
 Vue.use(ElementUI)
 Vue.prototype.$http = axios
+// Vue.component('my-bread', MyBread)
+Vue.use(plugin)
 
 Vue.config.productionTip = false
 
