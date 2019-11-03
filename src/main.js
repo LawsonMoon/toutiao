@@ -9,6 +9,7 @@ import axios from '@/api'
 import router from '@/router'
 // import MyBread from '@/components/my-bread'
 import plugin from '@/components'
+import './style/index.less'
 
 Vue.use(ElementUI)
 Vue.prototype.$http = axios
