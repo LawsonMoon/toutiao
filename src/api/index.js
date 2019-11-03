@@ -2,11 +2,23 @@
 import axios from 'axios'
 import local from '../utils/local'
 import router from 'vue-router'
+import JSONBIG from 'json-bigint'
 // 设置默认路径
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0/'
 if (local.getUser()) {
   axios.defaults.headers.Authorization = `Bearer ${local.getUser().token}`
 }
+
+axios.defaults.transformResponse = [(data) => {
+  // 后台的原始数据   理想情况 json字符串
+  try {
+    const result = JSONBIG.parse(data)
+    return result
+  } catch (e) {
+    return data
+  }
+}]
+
 // 请求拦截器
 axios.interceptors.request.use(config => {
   // 1. 获取token
@@ -17,6 +29,7 @@ axios.interceptors.request.use(config => {
 }, err => {
   return Promise.reject(err)
 })
+
 // 请求拦截器
 // axios.interceptors.request.use(config => {
 //   // 1. 获取token
