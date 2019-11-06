@@ -21,7 +21,9 @@
               <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item.id"></el-option>
             </el-select>
           </el-form-item>-->
-          <my-channel v-model="reqParams.channel_id"></my-channel>
+          <el-form-item label="频道：">
+            <my-channel v-model="reqParams.channel_id"></my-channel>
+          </el-form-item>
           <el-form-item label="日期：">
             <el-date-picker
               v-model="dateArr"

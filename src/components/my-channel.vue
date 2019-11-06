@@ -1,9 +1,7 @@
 <template>
-  <el-form-item label="频道：">
-    <el-select :value="values" @change="fn" v-model="id" placeholder="请选择" clearable>
-      <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item.id"></el-option>
-    </el-select>
-  </el-form-item>
+  <el-select :value="values" @change="fn" v-model="id" placeholder="请选择" clearable>
+    <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item.id"></el-option>
+  </el-select>
 </template>
 
 <script>

@@ -7,6 +7,7 @@ import NotFound from '../views/404/index.vue'
 import local from '@/utils/local'
 import article from '../views/article/index'
 import image from '../views/images/index'
+import publish from '../views/publish/index.vue'
 
 Vue.use(VueRouter)
 
@@ -26,6 +27,9 @@ const router = new VueRouter({
     }, {
       path: '/image',
       component: image
+    }, {
+      path: '/publish',
+      component: publish
     }]
   },
   {
