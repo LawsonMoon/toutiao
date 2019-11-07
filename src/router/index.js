@@ -10,6 +10,7 @@ import image from '../views/images/index'
 import publish from '../views/publish/index.vue'
 import comment from '../views/comment/index.vue'
 import setting from '../views/setting/index.vue'
+import fans from '../views/fans/index.vue'
 
 Vue.use(VueRouter)
 
@@ -38,6 +39,9 @@ const router = new VueRouter({
     }, {
       path: '/setting',
       component: setting
+    }, {
+      path: '/fans',
+      component: fans
     }]
   },
   {
