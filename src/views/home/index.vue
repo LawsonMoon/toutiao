@@ -54,10 +54,8 @@
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-setting" command="setting">个人设置
-            </el-dropdown-item>
-            <el-dropdown-item icon="el-icon-unlock" command='logout'>退出登陆
-            </el-dropdown-item>
+            <el-dropdown-item icon="el-icon-setting" command="setting">个人设置</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-unlock" command="logout">退出登陆</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
@@ -70,6 +68,7 @@
 
 <script>
 import local from '@/utils/local'
+import event from '@/eventBus.js'
 export default {
   data () {
     return {
@@ -106,6 +105,14 @@ export default {
     const user = local.getUser() || {}
     this.uname = user.name
     this.phtot = user.photo
+
+    event.$on('updateName', (name) => {
+      this.uname = name
+    })
+
+    event.$on('updatePhoto', (photo) => {
+      this.phtot = photo
+    })
   }
 }
 </script>
@@ -126,7 +133,7 @@ export default {
         140px auto;
     }
     .smallLogo {
-      background-image: url("../../assets/logo_admin_01.png");
+      background-image: url('../../assets/logo_admin_01.png');
       background-size: 36px auto;
     }
   }
